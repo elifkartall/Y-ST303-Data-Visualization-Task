@@ -1,0 +1,35 @@
+install.packages("carData")
+library(carData)
+library(tidyverse)
+library(ggplot2)
+data(Salaries)
+Salaries
+#computing the salary according to academic title
+salary_by_rank <- Salaries |>
+  group_by(rank) |>
+  summarise(mean_salary = mean(salary))
+salary_by_rank
+
+#barplot
+ggplot(salary_by_rank, aes(x = rank, y = mean_salary)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Akademik Ünvan", y = "Ortalama Maaş")+
+  theme_bw()+
+  ylim(0,150000)
+
+#How do salaries vary by gender according to academic title?
+#caltulating salaries
+salary_by_rank_sex <- Salaries |>
+  group_by(rank, sex) |>
+  summarise(mean_salary = mean(salary))
+salary_by_rank_sex
+#barplot
+ggplot(salary_by_rank_sex, aes(x = rank, y = mean_salary, fill = sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_bw()+
+  ylim(0,150000)
+
+
+
+
+
